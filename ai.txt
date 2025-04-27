@@ -1731,7 +1731,7 @@ b3: [[-0.23125367]]
 
 
 22) NOT WORKING
-Write a program to read a text file with at least 30 sentences and 200 words and perform the following tasks in the given sequence. a. b. c. d. e. 23. Text cleaning by removing punctuation/special characters, numbers and extra white spaces. Use regular expression for the same. Convert text to lowercase Tokenization Remove stop words Correct misspelled words
+22) Write a program to read a text file with at least 30 sentences and 200 words and perform the following tasks in the given sequence. a. b. c. d. e. 23. Text cleaning by removing punctuation/special characters, numbers and extra white spaces. Use regular expression for the same. Convert text to lowercase Tokenization Remove stop words Correct misspelled words
 
 import nltk
 
@@ -1803,6 +1803,176 @@ file_path = "/content/exp_22.txt"  # Replace with the path to your text file
 processed_tokens = process_text(file_path)
 
 print("Processed Tokens: ", processed_tokens)
+
+23) Write a program to read a text file with at least 30 sentences and 200 words and perform the following tasks in the given sequence. a. Text cleaning by removing punctuation/special characters, numbers and extra white spaces. Use regular expression for the same. b. Convert text to lowercase c. Stemming and Lemmatization d. Create a list of 3 consecutive words after lemmatization
+
+# Step 1: Import required libraries
+import re
+import nltk
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('stopwords')
+
+from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer
+from nltk.stem import WordNetLemmatizer
+
+# Step 2: Read the file
+with open("D:\------------------------------\SEM VI\AI LAB\Practical Exam\exp_22_23.txt", 'r') as file:  # Make sure your file is named 'sample_text.txt'
+    text = file.read()
+
+print("Original Text Sample:\n", text[:300])  # printing only first 300 characters
+
+# Step 3: Clean the text
+text = re.sub(r'[^a-zA-Z\s]', '', text)  # Remove special characters and numbers
+text = re.sub(r'\s+', ' ', text)  # Remove extra white spaces
+
+print("\nCleaned Text Sample:\n", text[:300])
+
+# Step 4: Convert to lowercase
+text = text.lower()
+print("\nLowercase Text Sample:\n", text[:300])
+
+# Step 5: Tokenize the text
+words = word_tokenize(text)
+
+# Step 6: Stemming
+stemmer = PorterStemmer()
+stemmed_words = [stemmer.stem(word) for word in words]
+
+print("\nSample Stemmed Words:\n", stemmed_words[:20])
+
+# Step 7: Lemmatization
+lemmatizer = WordNetLemmatizer()
+lemmatized_words = [lemmatizer.lemmatize(word) for word in words]
+
+print("\nSample Lemmatized Words:\n", lemmatized_words[:20])
+
+# Step 8: Create list of 3 consecutive words after lemmatization
+three_word_list = []
+for i in range(len(lemmatized_words) - 2):
+    three_words = lemmatized_words[i] + " " + lemmatized_words[i+1] + " " + lemmatized_words[i+2]
+    three_word_list.append(three_words)
+
+print("\nSample 3-word Combinations:\n", three_word_list[:10])
+
+
+
+Original Text Sample:
+ Artificial intelligence (AI) is intelligence demonstrated by machines, in contrast to the natural intelligence displayed by humans and animals. Leading AI textbooks define the field as the study of "intelligent agents": any device that perceives its environment and takes actions that maximize its ch
+
+Cleaned Text Sample:
+ Artificial intelligence AI is intelligence demonstrated by machines in contrast to the natural intelligence displayed by humans and animals Leading AI textbooks define the field as the study of intelligent agents any device that perceives its environment and takes actions that maximize its chance of
+
+Lowercase Text Sample:
+ artificial intelligence ai is intelligence demonstrated by machines in contrast to the natural intelligence displayed by humans and animals leading ai textbooks define the field as the study of intelligent agents any device that perceives its environment and takes actions that maximize its chance of
+
+Sample Stemmed Words:
+ ['artifici', 'intellig', 'ai', 'is', 'intellig', 'demonstr', 'by', 'machin', 'in', 'contrast', 'to', 'the', 'natur', 'intellig', 'display', 'by', 'human', 'and', 'anim', 'lead']
+
+Sample Lemmatized Words:
+ ['artificial', 'intelligence', 'ai', 'is', 'intelligence', 'demonstrated', 'by', 'machine', 'in', 'contrast', 'to', 'the', 'natural', 'intelligence', 'displayed', 'by', 'human', 'and', 'animal', 'leading']
+
+Sample 3-word Combinations:
+ ['artificial intelligence ai', 'intelligence ai is', 'ai is intelligence', 'is intelligence demonstrated', 'intelligence demonstrated by', 'demonstrated by machine', 'by machine in', 'machine in contrast', 'in contrast to', 'contrast to the']
+
+
+
+
+24) Write a program to read a 3 text files on any technical concept with at least 20 sentences and 150 words. Implement one-hot encoding.
+
+from sklearn.preprocessing import OneHotEncoder
+import numpy as np
+
+# File paths
+with open("/content/text1.txt", 'r') as file1:
+    text1 = file1.read()
+with open("/content/text2.txt", 'r') as file2:
+    text2 = file2.read()
+with open("/content/text3.txt", 'r') as file3:
+    text3 = file3.read()
+
+# Prepare the text data for One-Hot Encoding
+texts = [text1, text2, text3]
+texts = np.array(texts).reshape(-1, 1)
+
+# Initialize OneHotEncoder and perform the transformation
+encoder = OneHotEncoder(sparse_output=False)
+encoded = encoder.fit_transform(texts)
+
+# Print the One-Hot Encoded result
+print(encoded)
+
+
+[[1. 0. 0.]
+ [0. 0. 1.]
+ [0. 1. 0.]]
+
+•  The first row ([1. 0. 0.]) represents text1.txt. It has a 1 at the first position and 0s elsewhere, indicating that this is the first text file.
+•  The second row ([0. 0. 1.]) represents text2.txt. It has a 1 at the last position, indicating that this is the third text file.
+•  The third row ([0. 1. 0.]) represents text3.txt. It has a 1 in the second position, indicating that this is the second text file.
+
+
+
+
+25) Write a program to read a 3 text files on a movie review with at least 20 sentences and 150 words. Implement bag of words.
+
+from sklearn.feature_extraction.text import CountVectorizer
+
+# File paths
+with open("/content/text1.txt", 'r') as file1:
+    text1 = file1.read()
+with open("/content/text2.txt", 'r') as file2:
+    text2 = file2.read()
+with open("/content/text3.txt", 'r') as file3:
+    text3 = file3.read()
+
+# Prepare the text data for Bag of Words
+texts = [text1, text2, text3]
+
+# Initialize CountVectorizer and transform the text data
+vectorizer = CountVectorizer()
+X = vectorizer.fit_transform(texts)
+
+# Print the Bag of Words result (as a sparse matrix)
+print(X.toarray())
+
+
+•  Matrix Representation: The output is a matrix representing the frequency of words across multiple text documents.
+•  Rows: Each row corresponds to one text document (3 rows for 3 documents).
+•  Columns: Each column corresponds to a unique word from the combined set of words in all documents.
+•  Values: Values in the matrix represent how many times a word appears in each document (higher value = more frequent word).
+•  One-Hot Encoding: It is a form of encoding where the presence of words is counted and represented as integers (not binary).
+
+
+26) Write a program to read a 3 text files a tourist place with at least 20 sentences and 150 words. Implement TF-IDF
+
+ from sklearn.feature_extraction.text import TfidfVectorizer
+
+def compute_tfidf(file_paths):
+    # Read all text files
+    texts = []
+    for path in file_paths:
+        with open(path, 'r') as file:
+            texts.append(file.read())
+    
+    # Initialize TF-IDF Vectorizer
+    vectorizer = TfidfVectorizer(stop_words='english')
+    
+    # Compute TF-IDF values
+    tfidf_matrix = vectorizer.fit_transform(texts)
+    
+    # Display the TF-IDF values
+    feature_names = vectorizer.get_feature_names_out()
+    for i, doc in enumerate(tfidf_matrix.toarray()):
+        print(f"\nDocument {i+1}:")
+        for j, score in enumerate(doc):
+            if score > 0:  # Display only words with non-zero TF-IDF score
+                print(f"{feature_names[j]}: {score:.4f}")
+
+# Provide file paths
+file_paths = ['text1.txt', 'text2.txt', 'text3.txt']
+compute_tfidf(file_paths)
 
 
 
